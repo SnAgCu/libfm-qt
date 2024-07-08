@@ -273,8 +273,13 @@ void FolderItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
         const QWidget* widget = opt.widget;
         QStyle* style = widget ? widget->style() : QApplication::style();
         opt.decorationSize = option.decorationSize; // for a better text alignment
-        if (index.data(isHeaderRole_).toBool() && index.row() != 0) {
-            opt.rect.adjust(0, headerMarginTop_, 0, 0);
+        if (index.data(isHeaderRole_).toBool()) {
+            if (index.row() != 0) {
+                opt.rect.adjust(0, headerMarginTop_, 0, 0);
+            }
+            auto textColor = opt.palette.text().color();
+            textColor.setAlphaF(0.6);
+            opt.palette.setColor(QPalette::Text, textColor);
         }
         style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, widget);
 
